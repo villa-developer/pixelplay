@@ -1970,21 +1970,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user', 'taskStatus'],
+  props: ['user', 'taskStatus', 'userTasks'],
   data: function data() {
-    return {};
+    return {
+      tasks: this.userTasks
+    };
   },
   methods: {
     saveTask: function saveTask() {
+      var _this = this;
+
       var form = document.getElementById('create-task-from');
       var data = new FormData(form);
       axios.post('/tasks', data).then(function (response) {
-        console.log(response.data);
+        _this.tasks.push(response.data.task);
+
+        $('#exampleModal').modal('toggle');
       });
     }
   },
@@ -37640,7 +37642,39 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-12 py-5" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [_vm._v("TO DO LIST")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "ul",
+              { staticClass: "list-group pt-4" },
+              _vm._l(_vm.tasks, function(task) {
+                return _c(
+                  "li",
+                  {
+                    key: task.id,
+                    staticClass: "list-group-item text-uppercase"
+                  },
+                  [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(task.title) +
+                        "\n                        "
+                    )
+                  ]
+                )
+              }),
+              0
+            )
+          ])
+        ])
+      ])
+    ]),
     _vm._v(" "),
     _c(
       "div",
@@ -37748,52 +37782,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-12 py-5" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [_vm._v("TO DO LIST")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "text-right" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: {
-                    "data-toggle": "modal",
-                    "data-target": "#exampleModal"
-                  }
-                },
-                [_vm._v("add task")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("ul", { staticClass: "list-group pt-4" }, [
-              _c("li", { staticClass: "list-group-item" }, [
-                _vm._v(
-                  "\n                            Cras justo odio\n                        "
-                )
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "list-group-item" }, [
-                _vm._v("Dapibus ac facilisis in")
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "list-group-item" }, [
-                _vm._v("Morbi leo risus")
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "list-group-item" }, [
-                _vm._v("Porta ac consectetur ac")
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "list-group-item" }, [
-                _vm._v("Vestibulum at eros")
-              ])
-            ])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "text-right" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: { "data-toggle": "modal", "data-target": "#exampleModal" }
+        },
+        [_vm._v("add task")]
+      )
     ])
   },
   function() {

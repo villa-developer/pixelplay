@@ -10,13 +10,9 @@
                             <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">add task</button>
                         </div>
                         <ul class="list-group pt-4">
-                            <li class="list-group-item">
-                                Cras justo odio
+                            <li class="list-group-item text-uppercase" v-for="task in tasks" :key="task.id">
+                                {{ task.title }}
                             </li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Morbi leo risus</li>
-                            <li class="list-group-item">Porta ac consectetur ac</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
                         </ul>
                     </div>
                 </div>
@@ -67,10 +63,12 @@
 <script>
     export default {
 
-        props: ['user', 'taskStatus'],
+        props: ['user', 'taskStatus', 'userTasks'],
 
         data() {
-            return {}
+            return {
+                tasks: this.userTasks
+            }
         },
 
         methods: {
@@ -79,7 +77,8 @@
                 const data = new FormData(form);
 
                 axios.post('/tasks', data).then( response => {
-                    console.log(response.data);
+                    this.tasks.push(response.data.task);
+                    $('#exampleModal').modal('toggle');
                 });
             }
         },
